@@ -41,6 +41,7 @@ module.exports = (themeOptions) => {
       `gatsby-transformer-sharp`,
       `gatsby-plugin-sharp`,
       `gatsby-plugin-typescript`,
+      `gatsby-plugin-theme-ui`,
     ],
   };
 };

@@ -1,5 +1,7 @@
 import React from "react";
 
-const HomePageTemplate = () => <div style={{ fontWeight: `bold` }}>Home page</div>;
+import Layout from "../components/Layout";
+
+const HomePageTemplate = () => <Layout>Home page</Layout>;
 
 export default HomePageTemplate;
