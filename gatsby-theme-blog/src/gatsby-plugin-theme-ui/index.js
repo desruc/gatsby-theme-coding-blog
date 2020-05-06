@@ -14,7 +14,7 @@ export default merge(swiss, {
   layout: {
     container: {
       padding: [3, 4],
-      maxWidth: `1024px`,
+      maxWidth: `1280px`,
     },
   },
   styles: {

@@ -10,6 +10,7 @@ export const useSiteMetadata = () => {
           siteImage
           author
           instagram
+          gitHub
         }
       }
     }
