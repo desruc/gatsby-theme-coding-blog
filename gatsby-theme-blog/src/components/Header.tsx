@@ -2,12 +2,15 @@
 import { jsx, useColorMode } from "theme-ui";
 import { Link } from "gatsby";
 import { Flex } from "@theme-ui/components";
+import { useSiteMetadata } from "../hooks/useSiteMetadata";
+import ThemeSwitch from "./ThemeSwitch";
 
 const modes = [`light`, `deep`];
 
 const Header = () => {
   // Hooks
   const [colorMode, setColorMode] = useColorMode();
+  const { siteTitle } = useSiteMetadata();
 
   // Event handlers
   const handleToggle = () => {
@@ -26,11 +29,9 @@ const Header = () => {
         }}
       >
         <Link to="/">
-          <h1 sx={{ my: 0, fontWeight: `medium`, fontSize: [3, 4] }}>Site Title</h1>
+          <h1 sx={{ my: 0, fontWeight: `medium`, fontSize: [3, 4] }}>{siteTitle}</h1>
         </Link>
-        <button onClick={handleToggle} type="button">
-          Toggle colour
-        </button>
+        <ThemeSwitch changeTheme={handleToggle} />
       </Flex>
     </header>
   );

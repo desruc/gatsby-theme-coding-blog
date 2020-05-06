@@ -3,6 +3,7 @@ import { swiss, deep } from "@theme-ui/presets";
 
 export default merge(swiss, {
   initialColorModeName: `light`,
+  useCustomProperties: true,
   colors: {
     modes: {
       deep: {
@@ -18,5 +19,20 @@ export default merge(swiss, {
   },
   styles: {
     ...swiss.styles,
+  },
+  buttons: {
+    transparent: {
+      color: `inherit`,
+      bg: `transparent`,
+      transition: `all 0.3s ease-in-out`,
+      border: `none`,
+      "&:hover, &:focus": {
+        borderRadius: `50%`,
+        color: `primary`,
+        outline: `none`,
+        boxShadow: `0 0 0 2px`,
+        cursor: `pointer`,
+      },
+    },
   },
 });
