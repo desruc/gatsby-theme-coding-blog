@@ -35,4 +35,14 @@ export default merge(swiss, {
       },
     },
   },
+  links: {
+    icon: {
+      color: `text`,
+      textDecoration: `none`,
+      transition: `all 0.2s ease-in-out`,
+      "&:hover, &:focus": {
+        color: `primary`,
+      },
+    },
+  },
 });

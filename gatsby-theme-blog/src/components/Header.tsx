@@ -28,7 +28,7 @@ const Header = () => {
           justifyContent: `space-between`,
         }}
       >
-        <Link to="/">
+        <Link to="/" sx={{ color: `text`, textDecoration: `none` }}>
           <h1 sx={{ my: 0, fontWeight: `medium`, fontSize: [3, 4] }}>{siteTitle}</h1>
         </Link>
         <ThemeSwitch changeTheme={handleToggle} />
