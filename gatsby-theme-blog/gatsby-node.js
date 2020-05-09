@@ -133,16 +133,21 @@ exports.createPages = async ({ graphql, actions, reporter }, themeOptions) => {
 
   const { basePath, blogPath } = withDefaults(themeOptions);
 
+  // These templates are graphql queries that import components
+  const homepageTemplate = require.resolve(`./src/templates/HomepageQuery.tsx`);
+  const blogTemplate = require.resolve(`./src/templates/BlogQuery.tsx`);
+  const postTemplate = require.resolve(`./src/templates/PostQuery.tsx`);
+
   // Create the homepage
   createPage({
     path: basePath,
-    component: require.resolve(`./src/templates/HomeTemplate.tsx`),
+    component: homepageTemplate,
   });
 
   // Create the blog page
   createPage({
     path: blogPath,
-    component: require.resolve(`./src/templates/BlogTemplate.tsx`),
+    component: blogTemplate,
   });
 
   const result = await graphql(`
@@ -160,9 +165,7 @@ exports.createPages = async ({ graphql, actions, reporter }, themeOptions) => {
     reporter.panicOnBuild(`🚨  ERROR: Loading "createPages" query`);
   }
 
-  // const posts = result.data.mdxPosts.edges;
   const posts = result.data.allPost.nodes;
-  const postTemplate = require.resolve(`./src/templates/PostTemplate.tsx`);
 
   posts.forEach((post, idx) => {
     const isFirst = idx === 0;

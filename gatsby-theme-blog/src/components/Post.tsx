@@ -1,9 +1,8 @@
 import React from "react";
-import { graphql } from "gatsby";
 import { MDXRenderer } from "gatsby-plugin-mdx";
 
-import Layout from "../components/Layout";
-import PostFooter from "../components/PostFooter";
+import Layout from "./Layout";
+import PostFooter from "./PostFooter";
 
 type Props = {
   data: {
@@ -25,7 +24,7 @@ type Props = {
   };
 };
 
-const PostTemplate = ({ data: { post }, pageContext }: Props) => {
+const Post = ({ data: { post }, pageContext }: Props) => {
   const { next, previous } = pageContext;
   const showPostNavigation = next !== null || previous !== null;
 
@@ -37,14 +36,4 @@ const PostTemplate = ({ data: { post }, pageContext }: Props) => {
   );
 };
 
-export default PostTemplate;
-
-export const query = graphql`
-  query($slug: String!) {
-    post(slug: { eq: $slug }) {
-      slug
-      title
-      body
-    }
-  }
-`;
+export default Post;
