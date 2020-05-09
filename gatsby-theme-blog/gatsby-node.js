@@ -150,12 +150,11 @@ exports.createPages = async ({ graphql, actions, reporter }, themeOptions) => {
       allPost(sort: { fields: date, order: DESC }) {
         nodes {
           slug
+          title
         }
       }
     }
   `);
-
-  console.log(`exports.createPages -> result`, result);
 
   if (result.errors) {
     reporter.panicOnBuild(`🚨  ERROR: Loading "createPages" query`);
@@ -173,8 +172,9 @@ exports.createPages = async ({ graphql, actions, reporter }, themeOptions) => {
       component: postTemplate,
       context: {
         id: post.id,
-        previous: isFirst ? null : posts[idx - 1],
-        next: isLast ? null : posts[idx + 1],
+        slug: post.slug,
+        next: isFirst ? null : posts[idx - 1],
+        previous: isLast ? null : posts[idx + 1],
       },
     });
   });
