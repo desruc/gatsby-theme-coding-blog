@@ -19,19 +19,112 @@ exports.onPreBootstrap = ({ reporter, store }, themeOptions) => {
   });
 };
 
-exports.onCreateNode = ({ node, actions, getNode }) => {
-  const { createNodeField } = actions;
+const mdxResolverPassthrough = (fieldName) => async (source, args, context, info) => {
+  const type = info.schema.getType(`Mdx`);
+  const mdxNode = context.nodeModel.getNodeById({
+    id: source.parent,
+  });
+  const resolver = type.getFields()[fieldName].resolve;
+  const result = await resolver(mdxNode, args, context, {
+    fieldName,
+  });
+  return result;
+};
 
-  if (node.internal.type === `Mdx`) {
-    // Grab the sourceInstanceName to differentiate the different sources
-    const fileNode = getNode(node.parent);
-    const source = fileNode.sourceInstanceName;
+exports.createSchemaCustomization = ({ actions, schema }, themeOptions) => {
+  const { createTypes, createFieldExtension } = actions;
 
-    createNodeField({
-      node,
-      name: `source`,
-      value: source,
+  createFieldExtension({
+    name: `mdxpassthrough`,
+    args: {
+      fieldName: `String!`,
+    },
+    extend({ fieldName }) {
+      return {
+        resolve: mdxResolverPassthrough(fieldName),
+      };
+    },
+  });
+
+  createTypes(`
+  interface Post @nodeInterface {
+    id: ID!
+    slug: String!
+    title: String!
+    date: Date! @dateformat
+    excerpt(pruneLength: Int = 140): String!
+    body: String!
+    timeToRead: Int
+    tags: [PostTag]
+    description: String
+  }
+
+  type PostTag {
+    name: String
+    slug: String
+  }
+
+  type MdxPost implements Node & Post {
+    slug: String!
+    title: String!
+    date: Date! @dateformat
+    excerpt(pruneLength: Int = 140): String! @mdxpassthrough(fieldName: "excerpt")
+    body: String! @mdxpassthrough(fieldName: "body")
+    timeToRead: Int @mdxpassthrough(fieldName: "timeToRead")
+    tags: [PostTag]
+    description: String
+  }
+  `);
+};
+
+exports.onCreateNode = async ({ node, actions, getNode, createNodeId, createContentDigest }, themeOptions) => {
+  const { createNode, createParentChildLink } = actions;
+  const { postsPath } = withDefaults(themeOptions);
+
+  // Make sure it's an MDX node
+  if (node.internal.type !== `Mdx`) {
+    return;
+  }
+
+  // Create a source field
+  // And grab the sourceInstanceName to differentiate the different sources
+  // In this case "postsPath" and "pagesPath"
+  const fileNode = getNode(node.parent);
+  const source = fileNode.sourceInstanceName;
+
+  // Check for "posts" and create the "Post" type
+  if (node.internal.type === `Mdx` && source === postsPath) {
+    let modifiedTags = null;
+
+    if (node.frontmatter.tags) {
+      modifiedTags = `tags`;
+    }
+
+    const fieldData = {
+      slug: node.frontmatter.slug ? node.frontmatter.slug : undefined,
+      title: node.frontmatter.title,
+      date: node.frontmatter.date,
+      tags: modifiedTags,
+      description: node.frontmatter.description,
+    };
+
+    const mdxPostId = createNodeId(`${node.id} >>> MdxPost`);
+
+    createNode({
+      ...fieldData,
+      // Required fields
+      id: mdxPostId,
+      parent: node.id,
+      children: [],
+      internal: {
+        type: `MdxPost`,
+        contentDigest: createContentDigest(fieldData),
+        content: JSON.stringify(fieldData),
+        description: `Mdx implementation of the Post interface`,
+      },
     });
+
+    createParentChildLink({ parent: node, child: getNode(mdxPostId) });
   }
 };
 
@@ -54,36 +147,34 @@ exports.createPages = async ({ graphql, actions, reporter }, themeOptions) => {
 
   const result = await graphql(`
     query {
-      mdxPosts: allMdx(filter: { fields: { source: { eq: "content/posts" } } }) {
-        edges {
-          node {
-            id
-            frontmatter {
-              slug
-              title
-            }
-          }
+      allPost(sort: { fields: date, order: DESC }) {
+        nodes {
+          slug
         }
       }
     }
   `);
 
+  console.log(`exports.createPages -> result`, result);
+
   if (result.errors) {
     reporter.panicOnBuild(`🚨  ERROR: Loading "createPages" query`);
   }
 
-  const posts = result.data.mdxPosts.edges;
+  // const posts = result.data.mdxPosts.edges;
+  const posts = result.data.allPost.nodes;
+  const postTemplate = require.resolve(`./src/templates/PostTemplate.tsx`);
 
-  posts.forEach(({ node }, idx) => {
+  posts.forEach((post, idx) => {
     const isFirst = idx === 0;
     const isLast = idx === posts.length - 1;
     createPage({
-      path: `/blog/${node.frontmatter.slug}`,
-      component: require.resolve(`./src/templates/PostTemplate.tsx`),
+      path: `/blog/${post.slug}`,
+      component: postTemplate,
       context: {
-        id: node.id,
-        previous: isFirst ? null : posts[idx - 1].node,
-        next: isLast ? null : posts[idx + 1].node,
+        id: post.id,
+        previous: isFirst ? null : posts[idx - 1],
+        next: isLast ? null : posts[idx + 1],
       },
     });
   });

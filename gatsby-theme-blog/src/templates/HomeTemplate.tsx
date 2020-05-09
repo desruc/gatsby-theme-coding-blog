@@ -6,35 +6,30 @@ import PostListing from "../components/PostListing";
 
 type Props = {
   data: {
-    mdxPosts: any;
+    allPost: any;
     [key: string]: string;
   };
 };
 
-const HomePageTemplate = ({ data: { mdxPosts } }: Props) => {
-  const { edges } = mdxPosts;
+const HomePageTemplate = ({ data: { allPost } }: Props) => {
+  const { nodes } = allPost;
 
   return (
     <Layout>
       Home page
-      <PostListing posts={edges} />
+      <PostListing posts={nodes} />
     </Layout>
   );
 };
 
 export const query = graphql`
   query {
-    mdxPosts: allMdx(filter: { fields: { source: { eq: "content/posts" } } }, limit: 5) {
-      edges {
-        node {
-          id
-          frontmatter {
-            title
-            slug
-            date
-            description
-          }
-        }
+    allPost(sort: { fields: date, order: DESC }, limit: 5) {
+      nodes {
+        slug
+        title
+        description
+        date
       }
     }
   }
