@@ -21,6 +21,8 @@ const PostFooter = ({ next, previous }: Props) => {
   return (
     <Flex
       sx={{
+        mt: [5],
+        mb: [4],
         alignItems: `center`,
         justifyContent: hasPrevious ? `space-between` : `flex-end`,
       }}

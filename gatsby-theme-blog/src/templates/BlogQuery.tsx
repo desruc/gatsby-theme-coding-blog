@@ -5,8 +5,8 @@ import BlogComponent from "../components/Blog";
 export default BlogComponent;
 
 export const query = graphql`
-  query {
-    allPost(sort: { fields: date, order: DESC }) {
+  query($skip: Int!, $limit: Int!) {
+    allPost(sort: { fields: date, order: DESC }, limit: $limit, skip: $skip) {
       nodes {
         slug
         title

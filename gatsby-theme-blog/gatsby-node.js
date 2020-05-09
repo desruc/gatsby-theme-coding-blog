@@ -131,7 +131,7 @@ exports.onCreateNode = async ({ node, actions, getNode, createNodeId, createCont
 exports.createPages = async ({ graphql, actions, reporter }, themeOptions) => {
   const { createPage } = actions;
 
-  const { basePath, blogPath } = withDefaults(themeOptions);
+  const { basePath, blogPath, postsPerPage } = withDefaults(themeOptions);
 
   // These templates are graphql queries that import components
   const homepageTemplate = require.resolve(`./src/templates/HomepageQuery.tsx`);
@@ -178,6 +178,20 @@ exports.createPages = async ({ graphql, actions, reporter }, themeOptions) => {
         slug: post.slug,
         next: isFirst ? null : posts[idx - 1],
         previous: isLast ? null : posts[idx + 1],
+      },
+    });
+  });
+
+  const numPages = Math.ceil(posts.length / postsPerPage);
+  Array.from({ length: numPages }).forEach((_, i) => {
+    createPage({
+      path: i === 0 ? `/blog` : `/blog/${i + 1}`,
+      component: blogTemplate,
+      context: {
+        limit: postsPerPage,
+        skip: i * postsPerPage,
+        numPages,
+        currentPage: i + 1,
       },
     });
   });
