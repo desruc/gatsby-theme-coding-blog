@@ -12,7 +12,7 @@ type Props = {
 };
 
 const Listing = ({ posts }: Props) => (
-  <section sx={{ mt: [5, 6], fontFamily: `body` }}>
+  <section sx={{ fontFamily: `body` }}>
     {posts.map((post) => (
       <PostExcerpt key={post.slug} post={post} />
     ))}
