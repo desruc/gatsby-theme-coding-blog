@@ -1,6 +1,7 @@
 const fs = require(`fs`);
 const path = require(`path`);
 const mkdirp = require(`mkdirp`);
+const kebabCase = require(`lodash.kebabcase`);
 const withDefaults = require(`./default-options`);
 
 // Ensure that content directories exist at site-level
@@ -97,7 +98,10 @@ exports.onCreateNode = async ({ node, actions, getNode, createNodeId, createCont
     let modifiedTags = null;
 
     if (node.frontmatter.tags) {
-      modifiedTags = `tags`;
+      modifiedTags = node.frontmatter.tags.map((tag) => ({
+        name: tag,
+        slug: kebabCase(tag),
+      }));
     }
 
     const fieldData = {
@@ -137,6 +141,7 @@ exports.createPages = async ({ graphql, actions, reporter }, themeOptions) => {
   const homepageTemplate = require.resolve(`./src/templates/HomepageQuery.tsx`);
   const blogTemplate = require.resolve(`./src/templates/BlogQuery.tsx`);
   const postTemplate = require.resolve(`./src/templates/PostQuery.tsx`);
+  const tagtemplate = require.resolve(`./src/templates/TagQuery.tsx`);
 
   // Create the homepage
   createPage({
@@ -156,6 +161,11 @@ exports.createPages = async ({ graphql, actions, reporter }, themeOptions) => {
         nodes {
           slug
           title
+        }
+      }
+      tags: allPost(sort: { fields: tags___name, order: DESC }) {
+        group(field: tags___name) {
+          fieldValue
         }
       }
     }
@@ -195,4 +205,19 @@ exports.createPages = async ({ graphql, actions, reporter }, themeOptions) => {
       },
     });
   });
+
+  const tags = result.data.tags.group;
+
+  if (tags.length > 0) {
+    tags.forEach((tag) => {
+      createPage({
+        path: `/${basePath}/tags/${kebabCase(tag.fieldValue)}`.replace(/\/\/+/g, `/`),
+        component: tagtemplate,
+        context: {
+          slug: kebabCase(tag.fieldValue),
+          name: tag.fieldValue,
+        },
+      });
+    });
+  }
 };

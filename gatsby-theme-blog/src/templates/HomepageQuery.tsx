@@ -12,6 +12,10 @@ export const query = graphql`
         title
         description
         date
+        tags {
+          name
+          slug
+        }
       }
     }
   }

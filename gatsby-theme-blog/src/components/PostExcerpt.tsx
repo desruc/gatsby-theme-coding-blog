@@ -1,7 +1,9 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
-import { Link } from "gatsby";
 import { Box, Heading } from "@theme-ui/components";
+import { Link } from "gatsby";
+
+import PostTags from "./PostTags";
 
 type Props = {
   post: {
@@ -9,11 +11,15 @@ type Props = {
     slug: string;
     date: string;
     description: string;
+    tags: {
+      name: string;
+      slug: string;
+    }[];
   };
 };
 
 const PostExcerpt = ({ post }: Props) => {
-  const { title, slug, date, description } = post;
+  const { title, slug, date, description, tags } = post;
   return (
     <Box sx={{ mb: [3, 4], fontFamily: `body` }}>
       <Link sx={{ color: `text`, textDecoration: `none` }} to={`/blog/${slug}`}>
@@ -21,7 +27,14 @@ const PostExcerpt = ({ post }: Props) => {
           {title}
         </Heading>
       </Link>
-      <small>{date}</small>
+      <small>
+        {date}
+        {tags && (
+          <span>
+            {` • `} <PostTags tags={tags} />
+          </span>
+        )}
+      </small>
       <p sx={{ marginTop: 0 }}>{description}</p>
     </Box>
   );

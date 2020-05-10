@@ -10,6 +10,10 @@ type Props = {
       slug: string;
       title: string;
       body: string;
+      tags: {
+        name: string;
+        slug: string;
+      }[];
     };
   };
   pageContext: {
