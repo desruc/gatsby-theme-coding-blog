@@ -104,5 +104,6 @@ module.exports = {
         aspects: ["invalidHref"],
       },
     ],
+    "react/jsx-props-no-spreading": 0,
   },
 };
