@@ -1,7 +1,9 @@
 module.exports = {
   siteMetadata: {
     siteTitle: `JMSCMRN`,
+    siteTitleAlt: ``,
     siteDescription: `An MDX based blog `,
+    siteLanguage: `en`,
     author: `James Cameron`,
     siteUrl: `https://google.com`,
     siteImage: `/siteImage.jpg`,

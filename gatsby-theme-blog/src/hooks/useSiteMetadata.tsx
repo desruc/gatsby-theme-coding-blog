@@ -6,7 +6,10 @@ export const useSiteMetadata = () => {
       site {
         siteMetadata {
           siteTitle
+          siteTitleAlt
+          siteUrl
           siteDescription
+          siteLanguage
           siteImage
           author
           instagram
