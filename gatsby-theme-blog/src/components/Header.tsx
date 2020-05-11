@@ -28,9 +28,33 @@ const Header = () => {
           justifyContent: `space-between`,
         }}
       >
-        <Link to="/" sx={{ color: `text`, textDecoration: `none` }}>
-          <h1 sx={{ my: 0, fontWeight: `medium`, fontSize: [3, 4] }}>{siteTitle}</h1>
-        </Link>
+        <div>
+          <Link to="/" sx={{ color: `text`, textDecoration: `none` }}>
+            <h1
+              sx={{
+                my: 0,
+                fontWeight: `medium`,
+                fontSize: [1, 2],
+                letterSpacing: `0.2rem`,
+                display: `inline`,
+              }}
+            >
+              {siteTitle}
+            </h1>
+          </Link>
+          <span sx={{ mr: [2], ml: [2], userSelect: `none` }}>//</span>
+          <Link
+            to="/blog"
+            sx={{
+              variant: `links.icon`,
+              textTransform: `uppercase`,
+              letterSpacing: `0.2rem`,
+              fontWeight: 600,
+            }}
+          >
+            Blog
+          </Link>
+        </div>
         <ThemeSwitch changeTheme={handleToggle} />
       </Flex>
     </header>

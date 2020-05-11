@@ -25,12 +25,11 @@ const PostFooter = ({ next, previous }: Props) => {
         mb: [4],
         alignItems: `center`,
         justifyContent: hasPrevious ? `space-between` : `flex-end`,
+        flexWrap: `wrap`,
       }}
     >
-      {hasPrevious && (
-        <Link to={`/blog/${previous.slug}`} sx={{ variant: `links.icon` }}>{`Previous: ${previous.title}`}</Link>
-      )}
-      {hasNext && <Link to={`/blog/${next.slug}`} sx={{ variant: `links.icon` }}>{`Next: ${next.title}`}</Link>}
+      {hasPrevious && <Link to={`/blog/${previous.slug}`} sx={{ variant: `links.icon` }}>{`← ${previous.title}`}</Link>}
+      {hasNext && <Link to={`/blog/${next.slug}`} sx={{ variant: `links.icon` }}>{`${next.title} →`}</Link>}
     </Flex>
   );
 };
