@@ -9,6 +9,8 @@ export const query = graphql`
     post(slug: { eq: $slug }) {
       slug
       title
+      date
+      timeToRead
       body
       tags {
         name
