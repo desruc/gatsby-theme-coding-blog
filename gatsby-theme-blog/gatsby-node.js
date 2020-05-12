@@ -75,12 +75,27 @@ exports.createSchemaCustomization = ({ actions, schema }, themeOptions) => {
     tags: [PostTag]
     description: String
   }
+
+  interface Page @nodeInterface {
+    id: ID!
+    slug: String!
+    title: String!
+    excerpt(pruneLength: Int = 160): String!
+    body: String!
+  }
+
+  type MdxPage implements Node & Page {
+    slug: String!
+    title: String!
+    excerpt(pruneLength: Int = 140): String! @mdxpassthrough(fieldName: "excerpt")
+    body: String! @mdxpassthrough(fieldName: "body")
+  }
   `);
 };
 
 exports.onCreateNode = async ({ node, actions, getNode, createNodeId, createContentDigest }, themeOptions) => {
   const { createNode, createParentChildLink } = actions;
-  const { postsPath } = withDefaults(themeOptions);
+  const { postsPath, pagesPath } = withDefaults(themeOptions);
 
   // Make sure it's an MDX node
   if (node.internal.type !== `Mdx`) {
@@ -130,6 +145,31 @@ exports.onCreateNode = async ({ node, actions, getNode, createNodeId, createCont
 
     createParentChildLink({ parent: node, child: getNode(mdxPostId) });
   }
+
+  if (node.internal.type === `Mdx` && source === pagesPath) {
+    const fieldData = {
+      title: node.frontmatter.title,
+      slug: node.frontmatter.slug,
+    };
+
+    const mdxPageId = createNodeId(`${node.id} >>> MdxPage`);
+
+    createNode({
+      ...fieldData,
+      // Required fields
+      id: mdxPageId,
+      parent: node.id,
+      children: [],
+      internal: {
+        type: `MdxPage`,
+        contentDigest: createContentDigest(fieldData),
+        content: JSON.stringify(fieldData),
+        description: `Mdx implementation of the Page interface`,
+      },
+    });
+
+    createParentChildLink({ parent: node, child: getNode(mdxPageId) });
+  }
 };
 
 exports.createPages = async ({ graphql, actions, reporter }, themeOptions) => {
@@ -142,6 +182,7 @@ exports.createPages = async ({ graphql, actions, reporter }, themeOptions) => {
   const blogTemplate = require.resolve(`./src/templates/BlogQuery.tsx`);
   const postTemplate = require.resolve(`./src/templates/PostQuery.tsx`);
   const tagtemplate = require.resolve(`./src/templates/TagQuery.tsx`);
+  const pageTemplate = require.resolve(`./src/templates/PageQuery.tsx`);
 
   // Create the homepage
   createPage({
@@ -168,6 +209,11 @@ exports.createPages = async ({ graphql, actions, reporter }, themeOptions) => {
           fieldValue
         }
       }
+      allPage {
+        nodes {
+          slug
+        }
+      }
     }
   `);
 
@@ -177,30 +223,32 @@ exports.createPages = async ({ graphql, actions, reporter }, themeOptions) => {
 
   const posts = result.data.allPost.nodes;
 
-  posts.forEach((post, idx) => {
-    const isFirst = idx === 0;
-    const isLast = idx === posts.length - 1;
-    createPage({
-      path: `/blog/${post.slug}`,
-      component: postTemplate,
-      context: {
-        id: post.id,
-        slug: post.slug,
-        next: isFirst ? null : posts[idx - 1],
-        previous: isLast ? null : posts[idx + 1],
-      },
+  if (posts.length > 0) {
+    posts.forEach((post, idx) => {
+      const isFirst = idx === 0;
+      const isLast = idx === posts.length - 1;
+      createPage({
+        path: `/blog/${post.slug}`,
+        component: postTemplate,
+        context: {
+          id: post.id,
+          slug: post.slug,
+          next: isFirst ? null : posts[idx - 1],
+          previous: isLast ? null : posts[idx + 1],
+        },
+      });
     });
-  });
+  }
 
-  const numPages = Math.ceil(posts.length / postsPerPage);
-  Array.from({ length: numPages }).forEach((_, i) => {
+  const numPostPages = Math.ceil(posts.length / postsPerPage);
+  Array.from({ length: numPostPages }).forEach((_, i) => {
     createPage({
       path: i === 0 ? `/blog` : `/blog/${i + 1}`,
       component: blogTemplate,
       context: {
         limit: postsPerPage,
         skip: i * postsPerPage,
-        numPages,
+        numPages: numPostPages,
         currentPage: i + 1,
       },
     });
@@ -216,6 +264,20 @@ exports.createPages = async ({ graphql, actions, reporter }, themeOptions) => {
         context: {
           slug: kebabCase(tag.fieldValue),
           name: tag.fieldValue,
+        },
+      });
+    });
+  }
+
+  const pages = result.data.allPage.nodes;
+
+  if (pages.length > 0) {
+    pages.forEach((page) => {
+      createPage({
+        path: `/${basePath}/${page.slug}`.replace(/\/\/+/g, `/`),
+        component: pageTemplate,
+        context: {
+          slug: page.slug,
         },
       });
     });
