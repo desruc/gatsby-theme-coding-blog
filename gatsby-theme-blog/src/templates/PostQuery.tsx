@@ -10,7 +10,6 @@ export const query = graphql`
       slug
       title
       date
-      timeToRead
       body
       tags {
         name

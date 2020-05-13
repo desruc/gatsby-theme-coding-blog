@@ -82,6 +82,7 @@ exports.createSchemaCustomization = ({ actions, schema }, themeOptions) => {
     title: String!
     excerpt(pruneLength: Int = 160): String!
     body: String!
+    navigation: Boolean
   }
 
   type MdxPage implements Node & Page {
@@ -89,6 +90,7 @@ exports.createSchemaCustomization = ({ actions, schema }, themeOptions) => {
     title: String!
     excerpt(pruneLength: Int = 140): String! @mdxpassthrough(fieldName: "excerpt")
     body: String! @mdxpassthrough(fieldName: "body")
+    navigation: Boolean
   }
   `);
 };
@@ -150,6 +152,7 @@ exports.onCreateNode = async ({ node, actions, getNode, createNodeId, createCont
     const fieldData = {
       title: node.frontmatter.title,
       slug: node.frontmatter.slug,
+      navigation: node.frontmatter.navigation,
     };
 
     const mdxPageId = createNodeId(`${node.id} >>> MdxPage`);
