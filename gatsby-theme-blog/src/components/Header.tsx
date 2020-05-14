@@ -5,7 +5,7 @@ import { Flex } from "@theme-ui/components";
 import { useSiteMetadata } from "../hooks/useSiteMetadata";
 import ThemeSwitch from "./ThemeSwitch";
 
-const modes = [`light`, `deep`];
+const modes = [`light`, `deep`, `dark`];
 
 const Header = () => {
   // Hooks
@@ -37,12 +37,13 @@ const Header = () => {
                 fontSize: [1, 2],
                 letterSpacing: `0.2rem`,
                 display: `inline`,
+                transition: `all 0.3s ease-in-out`,
               }}
             >
               {siteTitle}
             </h1>
           </Link>
-          <span sx={{ mr: [2], ml: [2], userSelect: `none` }}>//</span>
+          <span sx={{ mr: [3], ml: [3], userSelect: `none` }}>//</span>
           <Link
             to="/blog"
             sx={{
