@@ -64,6 +64,7 @@ const Footer = () => {
           <React.Fragment>
             {nodes.map((node) => (
               <Link
+                key={node.slug}
                 to={`/${node.slug}`}
                 sx={{
                   variant: `links.icon`,
