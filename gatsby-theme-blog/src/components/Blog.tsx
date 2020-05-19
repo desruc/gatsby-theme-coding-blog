@@ -2,6 +2,7 @@ import React from "react";
 
 import Layout from "./Layout";
 import PostListing from "./PostListing";
+import NoPosts from "./NoPosts";
 
 type Props = {
   data: {
@@ -12,11 +13,8 @@ type Props = {
 
 const Blog = ({ data: { allPost } }: Props) => {
   const { nodes } = allPost;
-  return (
-    <Layout>
-      <PostListing posts={nodes} />
-    </Layout>
-  );
+  const hasPosts = nodes.length > 0;
+  return <Layout>{hasPosts ? <PostListing posts={nodes} /> : <NoPosts />}</Layout>;
 };
 
 export default Blog;

@@ -193,12 +193,6 @@ exports.createPages = async ({ graphql, actions, reporter }, themeOptions) => {
     component: homepageTemplate,
   });
 
-  // Create the blog page
-  createPage({
-    path: blogPath,
-    component: blogTemplate,
-  });
-
   const result = await graphql(`
     query {
       allPost(sort: { fields: date, order: DESC }) {
@@ -244,18 +238,30 @@ exports.createPages = async ({ graphql, actions, reporter }, themeOptions) => {
   }
 
   const numPostPages = Math.ceil(posts.length / postsPerPage);
-  Array.from({ length: numPostPages }).forEach((_, i) => {
+  if (numPostPages > 0) {
+    Array.from({ length: numPostPages }).forEach((_, i) => {
+      createPage({
+        path: i === 0 ? `/blog` : `/blog/${i + 1}`,
+        component: blogTemplate,
+        context: {
+          limit: postsPerPage,
+          skip: i * postsPerPage,
+          numPages: numPostPages,
+          currentPage: i + 1,
+        },
+      });
+    });
+  } else {
+    // Create the blog page
     createPage({
-      path: i === 0 ? `/blog` : `/blog/${i + 1}`,
+      path: blogPath,
       component: blogTemplate,
       context: {
-        limit: postsPerPage,
-        skip: i * postsPerPage,
-        numPages: numPostPages,
-        currentPage: i + 1,
+        limit: 0,
+        skip: 0,
       },
     });
-  });
+  }
 
   const tags = result.data.tags.group;
 
