@@ -1,6 +1,6 @@
 {
-  "name": "gatsby-theme-blog",
-  "version": "1.0.0",
+  "name": "@desruc666/gatsby-theme-blog",
+  "version": "1.0.1",
   "main": "index.js",
   "license": "MIT",
   "scripts": {

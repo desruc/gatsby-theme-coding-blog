@@ -8,9 +8,9 @@ const withDefaults = require(`./default-options`);
 exports.onPreBootstrap = ({ reporter, store }, themeOptions) => {
   const { program } = store.getState();
 
-  const { postsPath } = withDefaults(themeOptions);
+  const { postsPath, pagesPath } = withDefaults(themeOptions);
 
-  const dirs = [path.join(program.directory, postsPath)];
+  const dirs = [path.join(program.directory, postsPath), path.join(program.directory, pagesPath)];
 
   dirs.forEach((dir) => {
     if (!fs.existsSync(dir)) {
