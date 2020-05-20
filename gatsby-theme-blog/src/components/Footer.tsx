@@ -31,13 +31,13 @@ const Footer = () => {
   const hasLinks = nodes.length > 0;
 
   return (
-    <footer sx={{ mt: [3, 4] }}>
+    <footer sx={{ mt: [5, 6] }}>
       <Flex sx={{ alignItems: `center`, flexWrap: `wrap` }}>
         <Link to="/" sx={{ color: `text`, textDecoration: `none` }}>
           <h1
             sx={{
               my: 0,
-              fontWeight: `medium`,
+              fontWeight: 700,
               fontSize: [1, 2],
               letterSpacing: `0.2rem`,
               display: `inline`,
@@ -55,6 +55,7 @@ const Footer = () => {
             textTransform: `uppercase`,
             letterSpacing: `0.2rem`,
             fontWeight: 600,
+            fontSize: [1, 2],
             mr: [3],
           }}
         >
@@ -85,12 +86,12 @@ const Footer = () => {
           justifyContent: `space-between`,
         }}
       >
-        <p>{copyright}</p>
-        <div>
-          <a sx={{ variant: `links.icon`, mr: 3 }} href={instagram} title="Instagram">
+        <p sx={{ fontSize: 12 }}>{copyright}</p>
+        <div sx={{ display: `flex`, alignItems: `center` }}>
+          <a sx={{ display: `flex`, variant: `links.icon`, mr: 3 }} href={instagram} title="Instagram">
             <InstagramIcon />
           </a>
-          <a href={gitHub} sx={{ variant: `links.icon` }} title="Github">
+          <a href={gitHub} sx={{ display: `flex`, variant: `links.icon` }} title="Github">
             <GitHubIcon />
           </a>
         </div>

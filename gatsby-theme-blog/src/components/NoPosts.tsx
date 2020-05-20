@@ -11,6 +11,7 @@ const NoPosts = () => (
       letterSpacing: `0.3rem`,
       textAlign: `center`,
       mb: [4, 5],
+      fontSize: [1, 2],
     }}
   >
     <span sx={{ display: `block` }}>Uh oh!</span>

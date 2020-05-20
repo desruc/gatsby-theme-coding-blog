@@ -33,7 +33,7 @@ const Header = () => {
             <h1
               sx={{
                 my: 0,
-                fontWeight: `medium`,
+                fontWeight: 700,
                 fontSize: [1, 2],
                 letterSpacing: `0.2rem`,
                 display: `inline`,
@@ -51,6 +51,7 @@ const Header = () => {
               textTransform: `uppercase`,
               letterSpacing: `0.2rem`,
               fontWeight: 600,
+              fontSize: [1, 2],
             }}
           >
             Blog
