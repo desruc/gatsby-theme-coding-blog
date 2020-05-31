@@ -72,6 +72,7 @@ const Footer = () => {
                   textTransform: `uppercase`,
                   letterSpacing: `0.2rem`,
                   fontWeight: 600,
+                  fontSize: [1, 2],
                 }}
               >
                 {node.title}
