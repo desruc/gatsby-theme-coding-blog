@@ -6,7 +6,7 @@
     "start": "yarn workspace www start"
   },
   "workspaces": [
-    "gatsby-theme-blog",
+    "gatsby-theme-coding-blog",
     "www"
   ],
   "devDependencies": {

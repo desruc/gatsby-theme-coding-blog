@@ -11,5 +11,5 @@ module.exports = {
     gitHub: `https://github.com/desruc`,
     linkedIn: `https://www.linkedin.com`,
   },
-  plugins: [{ resolve: `gatsby-theme-blog`, options: {} }],
+  plugins: [{ resolve: `@desrucdeveloper/gatsby-theme-coding-blog`, options: {} }],
 };

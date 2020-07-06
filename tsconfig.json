@@ -6,9 +6,9 @@
     "lib": ["dom", "es2015", "es2017"],
     "moduleResolution": "node",
     "strict": true,
-    "noEmit": true, // Don't create files when running tsc
+    "noEmit": true,
     "skipLibCheck": true,
     "esModuleInterop": true
   },
-  "include": ["./gatsby-theme-blog", "./www"]
+  "include": ["./gatsby-theme-coding-blog", "./www"]
 }

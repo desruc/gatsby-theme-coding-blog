@@ -9,8 +9,8 @@ module.exports = {
   ],
   plugins: ["@typescript-eslint", "prettier", "react-hooks"],
   parserOptions: {
-    ecmaVersion: 2018, // Allows for the parsing of modern ECMAScript features
-    sourceType: "module", // Allows for the use of imports
+    ecmaVersion: 2018,
+    sourceType: "module",
     ecmaFeatures: {
       jsx: true,
     },
