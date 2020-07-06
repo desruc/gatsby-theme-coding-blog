@@ -14,6 +14,7 @@ export const useSiteMetadata = () => {
           author
           instagram
           gitHub
+          linkedIn
         }
       }
     }

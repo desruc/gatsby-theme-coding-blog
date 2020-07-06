@@ -9,6 +9,7 @@ module.exports = {
     siteImage: `/siteImage.jpg`,
     instagram: `https://instagram.com`,
     gitHub: `https://github.com/desruc`,
+    linkedIn: `https://www.linkedin.com`,
   },
   plugins: [{ resolve: `gatsby-theme-blog`, options: {} }],
 };
