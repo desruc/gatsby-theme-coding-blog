@@ -5,7 +5,7 @@ import { Flex } from "@theme-ui/components";
 import { useSiteMetadata } from "../hooks/useSiteMetadata";
 import ThemeSwitch from "./ThemeSwitch";
 
-const modes = [`light`, `deep`, `dark`];
+const modes = [`light`, `green`, `dark`];
 
 const Header = () => {
   // Hooks

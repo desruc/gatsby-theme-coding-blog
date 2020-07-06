@@ -1,22 +1,38 @@
 import { merge } from "theme-ui";
-import { swiss, deep } from "@theme-ui/presets";
+import { swiss } from "@theme-ui/presets";
 
 export default merge(swiss, {
   initialColorModeName: `light`,
   useCustomProperties: true,
   colors: {
+    text: `#2b2c34`,
+    background: `#fffffe`,
+    primary: `#6246ea`,
+    seconday: `#e45858`,
+    accent: `#d1d1e9`,
+    highlight: `#ff8906`,
+    muted: `#094067`,
+    heading: `#2b2c34`,
     modes: {
-      deep: {
-        ...deep.colors,
+      green: {
+        text: `#abd1c6`,
+        background: `#004643`,
+        primary: `#f9bc60`,
+        seconday: `#abd1c6`,
+        accent: `#f9bc60`,
+        highlight: `#f9bc60`,
+        muted: `#001e1d`,
+        heading: `#fffffe`,
       },
       dark: {
-        text: `#ffffff`,
-        primary: `#7bc74d`,
-        secondary: `#393e46`,
-        background: `#222831`,
-        heading: `#eeeeee`,
-        divide: `#BDBDBD`,
-        muted: `#757575`,
+        text: `#a7a9be`,
+        background: `#0f0e17`,
+        primary: `#e53170`,
+        seconday: `#f25f4c`,
+        accent: `#ff8906`,
+        highlight: `#ff8906`,
+        muted: `#094067`,
+        heading: `#fffffe`,
       },
     },
   },
