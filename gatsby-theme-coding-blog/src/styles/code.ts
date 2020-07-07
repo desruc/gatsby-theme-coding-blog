@@ -3,7 +3,7 @@ import { tint } from "@theme-ui/color";
 const code = (theme: string): any => {
   const themeBackgrounds: { [key: string]: string } = {
     light: `rgb(246, 248, 250)`,
-    green: `rgb(42, 39, 52)`,
+    green: `rgb(40, 44, 52)`,
     dark: `rgb(1, 22, 39)`,
   };
 
