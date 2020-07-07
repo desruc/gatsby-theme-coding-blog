@@ -92,17 +92,35 @@ const Footer = () => {
         <p sx={{ fontSize: 12 }}>{copyright}</p>
         <div sx={{ display: `flex`, alignItems: `center` }}>
           {gitHub && (
-            <a href={gitHub} sx={{ display: `flex`, variant: `links.icon`, mr: 3 }} title="Github">
+            <a
+              href={gitHub}
+              sx={{ display: `flex`, variant: `links.icon`, mr: 3 }}
+              title="Github"
+              target="_blank"
+              rel="noreferrer"
+            >
               <GitHubIcon />
             </a>
           )}
           {linkedIn && (
-            <a sx={{ display: `flex`, variant: `links.icon`, mr: 3 }} href={linkedIn} title="Instagram">
+            <a
+              sx={{ display: `flex`, variant: `links.icon`, mr: 3 }}
+              href={linkedIn}
+              title="Instagram"
+              target="_blank"
+              rel="noreferrer"
+            >
               <LinkedInIcon />
             </a>
           )}
           {instagram && (
-            <a sx={{ display: `flex`, variant: `links.icon` }} href={instagram} title="Instagram">
+            <a
+              sx={{ display: `flex`, variant: `links.icon` }}
+              href={instagram}
+              title="Instagram"
+              target="_blank"
+              rel="noreferrer"
+            >
               <InstagramIcon />
             </a>
           )}
