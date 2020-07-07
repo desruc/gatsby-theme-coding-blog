@@ -3,14 +3,16 @@ import { jsx } from "theme-ui";
 import React from "react";
 import { graphql, useStaticQuery, Link } from "gatsby";
 import { Flex } from "@theme-ui/components";
+
 import GitHubIcon from "../icons/GitHubIcon";
+import LinkedInIcon from "../icons/LinkedInIcon";
 import InstagramIcon from "../icons/InstagramIcon";
 
 import { useSiteMetadata } from "../hooks/useSiteMetadata";
 
 const Footer = () => {
   // Hooks
-  const { siteTitle, author, instagram, gitHub } = useSiteMetadata();
+  const { siteTitle, author, instagram, gitHub, linkedIn } = useSiteMetadata();
 
   // GraphQl query to get page links
   const {
@@ -89,12 +91,39 @@ const Footer = () => {
       >
         <p sx={{ fontSize: 12 }}>{copyright}</p>
         <div sx={{ display: `flex`, alignItems: `center` }}>
-          <a sx={{ display: `flex`, variant: `links.icon`, mr: 3 }} href={instagram} title="Instagram">
-            <InstagramIcon />
-          </a>
-          <a href={gitHub} sx={{ display: `flex`, variant: `links.icon` }} title="Github">
-            <GitHubIcon />
-          </a>
+          {gitHub && (
+            <a
+              href={gitHub}
+              sx={{ display: `flex`, variant: `links.icon`, mr: 3 }}
+              title="Github"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <GitHubIcon />
+            </a>
+          )}
+          {linkedIn && (
+            <a
+              sx={{ display: `flex`, variant: `links.icon`, mr: 3 }}
+              href={linkedIn}
+              title="Instagram"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <LinkedInIcon />
+            </a>
+          )}
+          {instagram && (
+            <a
+              sx={{ display: `flex`, variant: `links.icon` }}
+              href={instagram}
+              title="Instagram"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <InstagramIcon />
+            </a>
+          )}
         </div>
       </Flex>
     </footer>

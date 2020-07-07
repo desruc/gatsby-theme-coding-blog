@@ -2,11 +2,11 @@
   "private": true,
   "scripts": {
     "type-check": "tsc",
-    "lint": "eslint --ignore-path .gitignore . --ext ts --ext tsx --ext js --ext jsx",
-    "lint:fix": "yarn lint --fix"
+    "lint": "eslint --ignore-path .gitignore . --ext ts --ext tsx --ext js --ext jsx --fix",
+    "start": "yarn workspace www start"
   },
   "workspaces": [
-    "gatsby-theme-blog",
+    "gatsby-theme-coding-blog",
     "www"
   ],
   "devDependencies": {
